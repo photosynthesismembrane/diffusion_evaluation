@@ -1,0 +1,54 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+/scratch/s1889338/all_captions/venv/lib/python3.11/site-packages/transformers/utils/hub.py:124: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/scratch/s1889338/all_captions/venv/lib/python3.11/site-packages/transformers/models/llava/configuration_llava.py:100: FutureWarning: The `vocab_size` argument is deprecated and will be removed in v4.42, since it can be inferred from the `text_config`. Passing this argument has no effect
+  warnings.warn(
+Python version is above 3.10, patching the collections module.
+Downloading shards:   0%|          | 0/3 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 3/3 [00:00<00:00, 111.96it/s]
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [01:33<03:07, 93.62s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [02:40<01:17, 77.82s/it]Loading checkpoint shards: 100%|██████████| 3/3 [03:33<00:00, 66.32s/it]Loading checkpoint shards: 100%|██████████| 3/3 [03:33<00:00, 71.01s/it]
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Data successfully written to renaissance_evaluation_sample_llava_data.js
+
+###############################################################################
+Hábrók Cluster
+Job 11262794 for user s1889338
+Finished at: Mon Jul  8 01:07:19 CEST 2024
+
+Job details:
+============
+
+Job ID                         : 11262794
+Name                           : autocap
+User                           : s1889338
+Partition                      : gpulong
+Nodes                          : a100gpu4
+Number of Nodes                : 1
+Cores                          : 8
+Number of Tasks                : 1
+State                          : RUNNING  
+Submit                         : 2024-07-08T00:36:38
+Start                          : 2024-07-08T00:37:16
+End                            : --
+Reserved walltime              : 2-23:59:00
+Used walltime                  :   00:30:03
+Used CPU time                  :   00:27:39 (Efficiency: 11.50%)
+% User (Computation)           : 92.17%
+% System (I/O)                 :  7.83%
+Total memory reserved          : 50G
+Maximum memory used            : 24.25G
+Requested GPUs                 : a100=1
+Allocated GPUs                 : a100=1
+Max GPU utilization            : 98%
+Max GPU memory used            : 29.02G
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################

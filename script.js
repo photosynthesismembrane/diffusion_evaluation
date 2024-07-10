@@ -110,6 +110,7 @@ function loadImages(startIndex) {
         return;
     }
     image_folder = `${model}_${selectedQuestions[0]}_generations`;
+    console.log(image_folder);
 
     const imageContainer = document.getElementById('image-container');
     imageContainer.innerHTML = ''; // Clear previous images
@@ -120,7 +121,7 @@ function loadImages(startIndex) {
     })).filter(image => !noDataForImage(image)).slice(startIndex, startIndex + imagesPerPage);
 
     function imageModelAnswersEmpty(image, model) {
-        if  (!'llava_answers' in image) {
+        if  (!`${model}_answers` in image) {
             return true;
         }
 
@@ -141,20 +142,24 @@ function loadImages(startIndex) {
         return false;
     }
 
-    function imageExists(imageUrl) {
-        return fetch(imageUrl, { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    return true;
-                } else {
-                    return false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                return false;
-            });
+    // CHECK IF IMAGE EXISTS
+    function checkIfImageExists(url, callback) {
+        const img = new Image();
+        img.src = url;
+        
+        if (img.complete) {
+            callback(true);
+        } else {
+            img.onload = () => {
+                callback(true);
+            };
+        
+            img.onerror = () => {
+                callback(false);
+            };
+        }
     }
+  
 
     imagesArray.forEach((image, index) => {
         if (noDataForImage(image)) {
@@ -169,8 +174,12 @@ function loadImages(startIndex) {
             const imgElement = document.createElement('img');
             imgElement.src = `${image_folder}/${model}_${selectedQuestions[0]}_${image.image_filename}_${i}.png`;
             // If image does not exist in the folder, skip
-            if (imgElement.width == 0) {
-                continue;
+            if (model === 'cogvlm' || model === 'deepseek') {
+                continue
+            }
+
+            if (! (selectedQuestions[0] === 'composition' || selectedQuestions[0] === 'focus_point' || selectedQuestions[0] === 'contrast_elements') ) {
+                continue
             }
             
             imgElement.alt = `Image ${startIndex + index + 1}`;

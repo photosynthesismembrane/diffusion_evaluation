@@ -174,9 +174,6 @@ function loadImages(startIndex) {
             const imgElement = document.createElement('img');
             imgElement.src = `${image_folder}/${model}_${selectedQuestions[0]}_${image.image_filename}_${i}.png`;
             // If image does not exist in the folder, skip
-            if (model === 'cogvlm' || model === 'deepseek') {
-                continue
-            }
 
             if (! (selectedQuestions[0] === 'composition' || selectedQuestions[0] === 'focus_point' || selectedQuestions[0] === 'contrast_elements') ) {
                 continue

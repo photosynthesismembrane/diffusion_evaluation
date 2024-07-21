@@ -1,8 +1,8 @@
 renaissance-cogvlm-*
 renaissance-llava-*
 renaissance-deepseek-*
-abstract_2500_generations/*15k*
-renaissance_2500_generations
+abstract_2500_generations
+renaissance_2500_generations/*15k*
 abstract_evaluation_sample
 landscape_evaluation_sample
 abstract_odd_dimensions

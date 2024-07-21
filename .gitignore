@@ -9,5 +9,5 @@ abstract_odd_dimensions
 landscape_odd_dimensions
 landscape_2500_generations/*stable*
 landscape_2500_generations/*llava*
-landscape_2500_generations/*deepseek*
+landscape_2500_generations/*cogvlm*
 landscape_2500_generations/*best*

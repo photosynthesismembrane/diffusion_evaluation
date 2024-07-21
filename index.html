@@ -71,11 +71,12 @@
         }
         .image-wrapper {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
+            align-items: center;
         }
         img {
             width: 25vw;
+            margin: 5px;
+            border: 1px solid #ccc;
         }
         .answers {
             display: flex;
@@ -151,16 +152,13 @@
 </head>
 <body>
     <div id="controls">
-        <!-- <div class="dropdown-container">
+        <div class="dropdown-container">
             <select id="data-source" onchange="changeDataSource()">
-                <option value="pinterest">Pinterest</option>
                 <option value="renaissance">Renaissance</option>
-                <option value="band_poster">Band Poster</option>
                 <option value="landscape">Landscape</option>
-                <option value="wikiart_selection">WikiArt</option>
-                <option value="graffiti">Graffiti</option>
+                <option value="abstract">Abstract</option>
             </select>
-        </div> -->
+        </div>
         <div id="checkboxes">
             <div class="checkbox-container">
                 <input type="radio" id="llava" name="model" value="llava" checked>
@@ -184,9 +182,9 @@
         <button onclick="loadPrevious()">Previous</button>
         <button onclick="loadNext()">Next</button>
     </div>
-    <script src="renaissance_evaluation_sample_cogvlm_data.js"></script>
-    <script src="renaissance_evaluation_sample_llava_data.js"></script>
-    <script src="renaissance_evaluation_sample_deepseek_data.js"></script>
+    <script src="evaluation_abstract_data.js"></script>
+    <script src="evaluation_landscape_data.js"></script>
+    <script src="evaluation_renaissance_data.js"></script>
     <script src="questions_for_metadata.js"></script>
     <script src="script.js"></script>
 </body>

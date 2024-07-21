@@ -1,8 +1,8 @@
 let currentIndex = 0;
-const imagesPerPage = 1;
+const imagesPerPage = 10;
 let selectedQuestions = [];
-let image_folder = 'llava_composition_generations';
-let image_data = llava_data;
+let image_folder = 'renaissance_2500_generations';
+let image_data = evaluation_renaissance_data;
 // let questions = questions;
 
 // Load the image data
@@ -68,25 +68,16 @@ function handleQuestionClick(questionItem, questionLabel) {
 
 function changeDataSource() {
     const dataSource = document.getElementById('data-source').value;
-    if (dataSource === 'pinterest') {
-        image_folder = 'pinterest';
-        image_data = pinterest_data;
-    } else if (dataSource === 'renaissance') {
-        image_folder = 'renaissance';
-        image_data = renaissance_data;
-    } else if (dataSource === 'band_poster') {
-        image_folder = 'band_posters';
-        image_data = band_poster_data;
+    if (dataSource === 'renaissance') {
+        image_folder = 'renaissance_2500_generations';
+        image_data = evaluation_renaissance_data;
     } else if (dataSource === 'landscape') {
-        image_folder = 'landscape';
-        image_data = landscape_data;
-    } else if (dataSource === 'wikiart_selection') {
-        image_folder = 'wikiart_selection';
-        image_data = wikiart_selection_data;
-    } else if (dataSource === 'graffiti') {
-        image_folder = 'graffiti';
-        image_data = grafitti_data;
-    }
+        image_folder = 'landscape_2500_generations';
+        image_data = evaluation_landscape_data;
+    } else if (dataSource === 'abstract') {
+        image_folder = 'abstract_2500_generations';
+        image_data = evaluation_abstract_data;
+    } 
     populateQuestions();
     loadImages(currentIndex);
 }
@@ -97,20 +88,18 @@ function loadImages(startIndex) {
     let model = 'llava';
     if (document.getElementById('llava').checked) {
         model = 'llava';
-        image_data = llava_data
     } else if (document.getElementById('cogvlm').checked) {
         model = 'cogvlm';
-        image_data = cogvlm_data;
     } else if (document.getElementById('deepseek').checked) {
         model = 'deepseek';
-        image_data = deepseek_data;
     }
+
+    const dataSource = document.getElementById('data-source').value;
+    const diffusion_models = ['stable_diffusion_v1_5', dataSource + '_llava_15k', dataSource + '_cogvlm_15k', dataSource + '_deepseek_15k', dataSource + '_best_15k'];
     
     if (selectedQuestions.length === 0) {
         return;
     }
-    image_folder = `${model}_${selectedQuestions[0]}_generations`;
-    console.log(image_folder);
 
     const imageContainer = document.getElementById('image-container');
     imageContainer.innerHTML = ''; // Clear previous images
@@ -159,61 +148,55 @@ function loadImages(startIndex) {
             };
         }
     }
-  
 
     imagesArray.forEach((image, index) => {
         if (noDataForImage(image)) {
             return;
         }
 
-        // Loop 20 times
-        for (let i = 0; i < 10; i++) {
-            const imageWrapper = document.createElement('div');
-            imageWrapper.className = 'image-wrapper';
+        const answersDiv = document.createElement('div');
+        answersDiv.className = 'answers';
 
-            const imgElement = document.createElement('img');
-            imgElement.src = `${image_folder}/${model}_${selectedQuestions[0]}_${image.image_filename}_${i}.png`;
-            // If image does not exist in the folder, skip
+        const llavaChecked = document.getElementById('llava').checked;
+        const cogvlmChecked = document.getElementById('cogvlm').checked;
+        const deepseekChecked = document.getElementById('deepseek').checked;
 
-            if (! (selectedQuestions[0] === 'composition' || selectedQuestions[0] === 'focus_point' || selectedQuestions[0] === 'contrast_elements') ) {
-                continue
-            }
-            
-            imgElement.alt = `Image ${startIndex + index + 1}`;
-            imageWrapper.appendChild(imgElement);
-
-            const answersDiv = document.createElement('div');
-            answersDiv.className = 'answers';
-
-            const llavaChecked = document.getElementById('llava').checked;
-            const cogvlmChecked = document.getElementById('cogvlm').checked;
-            const deepseekChecked = document.getElementById('deepseek').checked;
-
-            if (llavaChecked && !imageModelAnswersEmpty(image, 'llava')) {
-                const llavaDiv = document.createElement('div');
-                llavaDiv.className = 'answer-box';
-                text =  truncateText(selectedQuestions.map(question => image.llava_answers[question] || "N/A").join('<br>'), 1000);
-                llavaDiv.innerHTML += `<p><strong>llava:</strong><br>${text}</p>`;
-                answersDiv.appendChild(llavaDiv);
-            }
-            if (cogvlmChecked && !imageModelAnswersEmpty(image, 'cogvlm')) {
-                const cogvlmDiv = document.createElement('div');
-                cogvlmDiv.className = 'answer-box';
-                text = truncateText(selectedQuestions.map(question => image.cogvlm_answers[question] || "N/A").join('<br>'), 1000);
-                cogvlmDiv.innerHTML += `<p><strong>cogvlm:</strong><br>${text}</p>`;
-                answersDiv.appendChild(cogvlmDiv);
-            }
-            if (deepseekChecked && !imageModelAnswersEmpty(image, 'deepseek')) {
-                const deepseekDiv = document.createElement('div');
-                deepseekDiv.className = 'answer-box';
-                text = truncateText(selectedQuestions.map(question => image.deepseek_answers[question] || "N/A").join('<br>'), 1000);
-                deepseekDiv.innerHTML += `<p><strong>deepseek:</strong><br>${text}</p>`;
-                answersDiv.appendChild(deepseekDiv);
-            }
-
-            imageWrapper.appendChild(answersDiv);
-            imageContainer.appendChild(imageWrapper);
+        if (llavaChecked && !imageModelAnswersEmpty(image, 'llava')) {
+            const llavaDiv = document.createElement('div');
+            llavaDiv.className = 'answer-box';
+            text =  truncateText(selectedQuestions.map(question => image.llava_answers[question] || "N/A").join('<br>'), 1000);
+            llavaDiv.innerHTML += `<p><strong>llava:</strong><br>${text}</p>`;
+            answersDiv.appendChild(llavaDiv);
         }
+        if (cogvlmChecked && !imageModelAnswersEmpty(image, 'cogvlm')) {
+            const cogvlmDiv = document.createElement('div');
+            cogvlmDiv.className = 'answer-box';
+            text = truncateText(selectedQuestions.map(question => image.cogvlm_answers[question] || "N/A").join('<br>'), 1000);
+            cogvlmDiv.innerHTML += `<p><strong>cogvlm:</strong><br>${text}</p>`;
+            answersDiv.appendChild(cogvlmDiv);
+        }
+        if (deepseekChecked && !imageModelAnswersEmpty(image, 'deepseek')) {
+            const deepseekDiv = document.createElement('div');
+            deepseekDiv.className = 'answer-box';
+            text = truncateText(selectedQuestions.map(question => image.deepseek_answers[question] || "N/A").join('<br>'), 1000);
+            deepseekDiv.innerHTML += `<p><strong>deepseek:</strong><br>${text}</p>`;
+            answersDiv.appendChild(deepseekDiv);
+        }        
+
+        const imageWrapper = document.createElement('div');
+        imageWrapper.className = 'image-wrapper';
+
+        imageWrapper.appendChild(answersDiv);
+
+        for (let i = 0; i < diffusion_models.length; i++) {
+            const diffusion_model = diffusion_models[i];
+            const imgElement = document.createElement('img');
+            imgElement.src = `${image_folder}/${diffusion_model}_${model}_${selectedQuestions[0]}_${image.image_filename.replace('.jpg', '')}.png`;
+            imgElement.alt = imgElement.src;
+            imageWrapper.appendChild(imgElement);
+        }
+        
+        imageContainer.appendChild(imageWrapper);
     });
 }
 
@@ -257,7 +240,7 @@ populateQuestions();
 document.getElementById('llava').addEventListener('change', () => loadImages(currentIndex));
 document.getElementById('cogvlm').addEventListener('change', () => loadImages(currentIndex));
 document.getElementById('deepseek').addEventListener('change', () => loadImages(currentIndex));
-// document.getElementById('data-source').addEventListener('change', changeDataSource);
+document.getElementById('data-source').addEventListener('change', changeDataSource);
 
 loadImages(currentIndex);
 

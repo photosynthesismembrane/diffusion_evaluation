@@ -191,7 +191,7 @@ function loadImages(startIndex) {
         for (let i = 0; i < diffusion_models.length; i++) {
             const diffusion_model = diffusion_models[i];
             const imgElement = document.createElement('img');
-            imgElement.src = `${image_folder}/${diffusion_model}_${model}_${selectedQuestions[0]}_${image.image_filename.replace('.jpg', '')}.png`;
+            imgElement.src = `https://raw.githubusercontent.com/photosynthesismembrane/diffusion_evaluation/main/${image_folder}/${diffusion_model}_${model}_${selectedQuestions[0]}_${image.image_filename.replace('.jpg', '')}.png`;
             imgElement.alt = imgElement.src;
             imageWrapper.appendChild(imgElement);
         }
